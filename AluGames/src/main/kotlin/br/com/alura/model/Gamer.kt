@@ -1,7 +1,6 @@
 package br.com.alura.model
 
 import br.com.alura.utils.formatoComDuasCasasDecimais
-import java.time.LocalDate
 import java.util.*
 import kotlin.random.Random
 
@@ -14,6 +13,7 @@ data class Gamer(var nome: String, var email: String) : Recomendavel {
                 criarIdInterno()
             }
         }
+    var id = 0
     var idInterno: String? = null
         private set
     var plano: Plano = PlanoAvulso("BRONZE")
@@ -25,10 +25,11 @@ data class Gamer(var nome: String, var email: String) : Recomendavel {
     override val media: Double
         get() = listaNotas.average().formatoComDuasCasasDecimais()
 
-    constructor(nome: String, email: String, dataNascimento: String, usuario: String) :
+    constructor(nome: String, email: String, dataNascimento:String?, usuario:String?, id: Int = 0):
             this(nome, email) {
         this.dataNascimento = dataNascimento
         this.usuario = usuario
+        this.id = id
         criarIdInterno()
     }
 
@@ -106,5 +107,6 @@ data class Gamer(var nome: String, var email: String) : Recomendavel {
             }
         }
     }
+
 
 }

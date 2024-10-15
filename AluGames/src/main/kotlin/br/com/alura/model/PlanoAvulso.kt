@@ -3,7 +3,8 @@ package br.com.alura.model
 import java.math.BigDecimal
 
 class PlanoAvulso(
-    tipo: String): Plano(tipo) {
+    tipo: String,
+    id: Int = 0): Plano(tipo) {
 
     override fun obterValor(aluguel: Aluguel): BigDecimal {
         var valorOriginal = super.obterValor(aluguel)

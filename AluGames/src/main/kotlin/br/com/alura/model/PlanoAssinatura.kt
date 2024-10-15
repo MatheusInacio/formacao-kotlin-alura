@@ -4,9 +4,10 @@ import java.math.BigDecimal
 
 class PlanoAssinatura(
     tipo: String,
-    val mesalidade: Double,
+    val mensalidade: Double,
     val jogosIncluidos: Int,
-    val percentualDescontoReputacao: BigDecimal
+    val percentualDescontoReputacao: BigDecimal,
+    id: Int = 0
 ) : Plano(tipo) {
 
     override fun obterValor(aluguel: Aluguel): BigDecimal {
