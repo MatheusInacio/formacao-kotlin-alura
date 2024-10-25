@@ -1,16 +1,4 @@
 spring:
-  application:
-    name: forum
-  datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/alura_forum
-    username: root
-    password: root
-  jpa:
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+  profiles:
+    active: @activatedProperties@
+#    active: dev
