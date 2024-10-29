@@ -10,6 +10,7 @@ import br.com.alura.forum.model.Curso
 import br.com.alura.forum.model.Topico
 import br.com.alura.forum.model.Usuario
 import br.com.alura.forum.repository.TopicoRepository
+import jakarta.persistence.EntityManager
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -21,7 +22,8 @@ class TopicoService(
     private var repository: TopicoRepository,
     private val topicoViewMapper: TopicoViewMapper,
     private val topicoFormMapper: TopicoFormMapper,
-    private val notFoundMessage: String = "Topico nao encontrado!"
+    private val notFoundMessage: String = "Topico nao encontrado!",
+    private val em: EntityManager
 ) {
     fun listar(
         nomeCurso: String?,

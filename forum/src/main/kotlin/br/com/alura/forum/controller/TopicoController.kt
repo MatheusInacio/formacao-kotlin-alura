@@ -7,6 +7,7 @@ import br.com.alura.forum.model.Curso
 import br.com.alura.forum.model.Topico
 import br.com.alura.forum.model.Usuario
 import br.com.alura.forum.service.TopicoService
+import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import jakarta.validation.Valid
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -23,6 +24,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/topicos")
+@SecurityRequirement(name = "bearerAuth")
 class TopicoController(private val service: TopicoService) {
 
     @GetMapping

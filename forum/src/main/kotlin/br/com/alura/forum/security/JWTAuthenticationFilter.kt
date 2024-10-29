@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 
 class JWTAuthenticationFilter(private val jwtUtil: JWTUtil) : OncePerRequestFilter() {
+
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -15,7 +16,7 @@ class JWTAuthenticationFilter(private val jwtUtil: JWTUtil) : OncePerRequestFilt
     ) {
         val token = request.getHeader("Authorization")
         val jwt = getTokenDetail(token)
-        if(jwtUtil.isValid(jwt)){
+        if (jwtUtil.isValid(jwt)) {
             val authentication = jwtUtil.getAuthentication(jwt)
             SecurityContextHolder.getContext().authentication = authentication
         }
@@ -23,10 +24,9 @@ class JWTAuthenticationFilter(private val jwtUtil: JWTUtil) : OncePerRequestFilt
     }
 
     private fun getTokenDetail(token: String?): String? {
-        return token.let { jwt ->
-            jwt?.startsWith("Bearer ")
-            jwt?.substring(7, jwt.length)
+        return token?.let { jwt ->
+            jwt.startsWith("Bearer ")
+            jwt.substring(7, jwt.length)
         }
     }
-
 }

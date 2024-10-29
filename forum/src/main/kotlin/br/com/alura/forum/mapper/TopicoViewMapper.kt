@@ -5,7 +5,7 @@ import br.com.alura.forum.model.Topico
 import org.springframework.stereotype.Component
 
 @Component
-class TopicoViewMapper: Mapper<Topico, TopicoViewDTO> {
+class TopicoViewMapper : Mapper<Topico, TopicoViewDTO> {
 
     override fun map(t: Topico): TopicoViewDTO {
         return TopicoViewDTO(
@@ -13,7 +13,8 @@ class TopicoViewMapper: Mapper<Topico, TopicoViewDTO> {
             titulo = t.titulo,
             mensagem = t.mensagem,
             dataCriacao = t.dataCriacao,
-            status = t.status
+            status = t.status,
+            dataAlteracao = t.dataAlteracao
         )
     }
 }

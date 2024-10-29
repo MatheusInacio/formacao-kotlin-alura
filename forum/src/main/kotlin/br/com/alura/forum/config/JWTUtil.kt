@@ -39,6 +39,7 @@ class JWTUtil(
 
     fun isValid(jwt: String?): Boolean {
         return try {
+            println("====================== checlk token ===============================")
             Jwts.parser()
                 .verifyWith(key)
                 .build()

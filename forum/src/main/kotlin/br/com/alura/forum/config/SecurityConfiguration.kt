@@ -18,22 +18,35 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfiguration (
+class SecurityConfiguration(
     private val configuration: AuthenticationConfiguration,
     private val userDetailsService: UserDetailsService,
     private val jwtUtil: JWTUtil
-){
+) {
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        return http
-            .csrf { it.disable() }
-            .authorizeHttpRequests {
+        return http.csrf { it.disable() }.authorizeHttpRequests {
                 it
-                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                    .anyRequest().authenticated()
-            }
-            .addFilterBefore(JWTLoginFilter(authenticationManager = configuration.authenticationManager, jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
-            .sessionManagement {
+
+//                    .requestMatchers("/swagger-ui").permitAll()
+//                    .requestMatchers("/swagger-ui/*").permitAll()
+//                    .requestMatchers("/v3/api-docs/**").permitAll()
+
+//                    .requestMatchers("/topicos").permitAll()
+//                    .requestMatchers("/topicos").hasAnyAuthority("USER")
+//                    .requestMatchers(HttpMethod.GET, "/topicos/**").hasAnyRole("USER")
+//                    .requestMatchers(HttpMethod.PUT, "/topicos/**").hasAnyRole("USER")
+//                    .requestMatchers(HttpMethod.DELETE, "/topicos/**").hasAnyRole("USER")
+
+//                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
+//                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
+
+            }.addFilterBefore(
+                JWTLoginFilter(
+                    authenticationManager = configuration.authenticationManager, jwtUtil = jwtUtil
+                ), UsernamePasswordAuthenticationFilter().javaClass
+            ).sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }.build()
     }

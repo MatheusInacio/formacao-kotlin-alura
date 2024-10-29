@@ -1,10 +1,8 @@
 package br.com.alura.forum.model
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
+
 
 @Entity
 data class Role(
