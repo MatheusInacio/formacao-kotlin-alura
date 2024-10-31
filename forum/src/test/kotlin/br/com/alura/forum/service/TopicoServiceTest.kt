@@ -1,6 +1,5 @@
 package br.com.alura.forum.service
 
-
 import br.com.alura.forum.exception.NotFoundException
 import br.com.alura.forum.mapper.TopicoFormMapper
 import br.com.alura.forum.mapper.TopicoViewMapper
@@ -10,7 +9,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import jakarta.persistence.EntityManager
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -27,7 +25,6 @@ class TopicoServiceTest {
     private val pageable: Pageable = mockk()
     private val topicoViewMapper: TopicoViewMapper = mockk()
     private val topicoFormMapper: TopicoFormMapper = mockk()
-    private val entityManager: EntityManager = mockk()
 
     private val topicoRepository: TopicoRepository = mockk {
         every { findAll(pageable) } returns pages
@@ -38,8 +35,7 @@ class TopicoServiceTest {
         repository = topicoRepository,
         topicoViewMapper = topicoViewMapper,
         topicoFormMapper = topicoFormMapper,
-        notFoundMessage = "Topico nao encontrado!",
-        em = entityManager)
+        notFoundMessage = "Topico nao encontrado!")
 
     @Test
     fun `deve listar topico por nome do curso`() {

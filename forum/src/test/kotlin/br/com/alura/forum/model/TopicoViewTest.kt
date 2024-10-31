@@ -1,11 +1,11 @@
 package br.com.alura.forum.model
 
-import br.com.alura.forum.dto.TopicoViewDTO
+import br.com.alura.forum.dto.TopicoView
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 object TopicoViewTest {
-    fun build() = TopicoViewDTO(
+    fun build() = TopicoView(
         id = 1,
         titulo = "Kotlin Basico",
         mensagem = "Aprendendo kotlin basico",

@@ -6,56 +6,46 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfiguration(
-    private val configuration: AuthenticationConfiguration,
-    private val userDetailsService: UserDetailsService,
-    private val jwtUtil: JWTUtil
-) {
-    @Bean
-    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        return http.csrf { it.disable() }.authorizeHttpRequests {
-                it
+        private val userDetailsService: UserDetailsService,
+        private val jwtUtil: JWTUtil
+)
+    : WebSecurityConfigurerAdapter() {
 
-//                    .requestMatchers("/swagger-ui").permitAll()
-//                    .requestMatchers("/swagger-ui/*").permitAll()
-//                    .requestMatchers("/v3/api-docs/**").permitAll()
-
-//                    .requestMatchers("/topicos").permitAll()
-//                    .requestMatchers("/topicos").hasAnyAuthority("USER")
-//                    .requestMatchers(HttpMethod.GET, "/topicos/**").hasAnyRole("USER")
-//                    .requestMatchers(HttpMethod.PUT, "/topicos/**").hasAnyRole("USER")
-//                    .requestMatchers(HttpMethod.DELETE, "/topicos/**").hasAnyRole("USER")
-
-//                    .requestMatchers(HttpMethod.POST, "/login").permitAll()
-//                    .anyRequest().authenticated()
-                    .anyRequest().permitAll()
-
-            }.addFilterBefore(
-                JWTLoginFilter(
-                    authenticationManager = configuration.authenticationManager, jwtUtil = jwtUtil
-                ), UsernamePasswordAuthenticationFilter().javaClass
-            ).sessionManagement {
-                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            }.build()
+    override fun configure(http: HttpSecurity?) {
+        http?.
+        csrf()?.disable()?.
+        authorizeRequests()?.
+        antMatchers("/topicos")?.hasAnyAuthority("LEITURA_ESCRITA", "ADMIN")?.
+        antMatchers("/respostas")?.hasAnyAuthority("LEITURA_ESCRITA","ADMIN")?.
+        antMatchers("/relatorios")?.hasAuthority("ADMIN")?.
+        antMatchers(HttpMethod.POST,"/login")?.permitAll()?.
+        antMatchers(HttpMethod.GET, "/swagger-ui/*")?.permitAll()?.
+        antMatchers(HttpMethod.GET,"/v3/api-docs/**")?.permitAll()?.
+        anyRequest()?.
+        authenticated()?.
+        and()
+        http?.addFilterBefore(JWTLoginFilter(authManager = authenticationManager(), jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
+        http?.addFilterBefore(JWTAuthenticationFilter(jwtUtil = jwtUtil), UsernamePasswordAuthenticationFilter().javaClass)
+        http?.sessionManagement()?.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
     @Bean
-    fun bCryptPasswordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+    fun bCryptPasswordEncoder(): BCryptPasswordEncoder {
+        return BCryptPasswordEncoder()
+    }
 
-    fun configure(auth: AuthenticationManagerBuilder?) {
+    override fun configure(auth: AuthenticationManagerBuilder?) {
         auth?.userDetailsService(userDetailsService)?.passwordEncoder(bCryptPasswordEncoder())
     }
-
 }

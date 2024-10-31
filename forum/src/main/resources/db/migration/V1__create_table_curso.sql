@@ -6,5 +6,4 @@ create table curso(
 );
 
 insert into curso values(1, 'Kotlin', 'Programacao');
-insert into curso values(2, 'Java', 'Programacao');
-insert into curso values(3, 'Angular', 'Programacao');
+insert into curso values(2, 'HTML', 'Front-end');

@@ -5,10 +5,10 @@ import br.com.alura.forum.repository.UsuarioRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
-import java.util.*
+import java.lang.RuntimeException
 
 @Service
-class UsuarioService (
+class UsuarioService(
     private val repository: UsuarioRepository
 ) : UserDetailsService {
 
