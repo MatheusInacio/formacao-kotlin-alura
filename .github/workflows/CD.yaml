@@ -1,5 +1,9 @@
 name: CD
 
+defaults:
+  run:
+    working-directory: forum
+
 on:
   push:
     branches:
@@ -8,9 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: forum
 
     steps:
       - uses: actions/checkout@v1
