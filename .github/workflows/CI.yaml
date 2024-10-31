@@ -1,15 +1,15 @@
 name: CI
 
+defaults:
+  run:
+    working-directory: forum
+
 on:
   push:
     branches:
       - '*'
 
 jobs:
-  build:
-    defaults:
-      run:
-        working-directory: forum
   in-docker_test:
     name: Testes automatizados
     runs-on: ubuntu-latest
